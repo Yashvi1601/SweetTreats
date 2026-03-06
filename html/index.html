@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Treats | Artisan Bakery</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Loading Animation -->
+    <div id="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand brand-font" href="index.html">Sweet Treats</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+
+                    <!-- Cart Button -->
+                    <li class="nav-item">
+                        <button class="btn btn-link nav-link position-relative p-0" id="cartButton"
+                            style="margin: 0 10px;">
+                            <i class="fa-solid fa-cart-shopping"
+                                style="font-size: 1.2rem; color: var(--text-dark);"></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                id="cartCount" style="font-size: 0.7rem; display: none;">0</span>
+                        </button>
+                    </li>
+
+                    <!-- User Navigation (Logged In) -->
+                    <li class="nav-item dropdown" id="userNav" style="display: none;">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-user-circle" style="font-size: 1.2rem;"></i>
+                            <span id="userNameDisplay">User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="handleLogout()">
+                                <i class="fa-solid fa-sign-out-alt me-2"></i>Logout
+                            </a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Guest Navigation (Not Logged In) -->
+                    <li class="nav-item" id="guestNav">
+                        <button class="btn btn-sm btn-custom" onclick="showAuthModal('login')" style="margin: 0 10px;">
+                            <i class="fa-solid fa-user me-1"></i>Login
+                        </button>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 animate-slide-left">
+                    <h4 class="mb-3"
+                        style="color: var(--accent-brown); text-transform: uppercase; letter-spacing: 2px;">Welcome to
+                        our bakery</h4>
+                    <h1 class="display-4 fw-bold mb-4"
+                        style="font-family: 'Playfair Display', serif; color: var(--dark-chocolate);">Freshly Baked With
+                        Love</h1>
+                    <p class="lead mb-5">Handcrafted cakes, pastries, and breads made fresh every morning using the
+                        finest organic ingredients.</p>
+                    <a href="menu.html" class="btn-custom">Order Now</a>
+                    <a href="about.html" class="btn-outline-custom">Learn More</a>
+                </div>
+                <div class="col-lg-6 hero-img-container animate-slide-right">
+                    <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?q=80&w=1920&auto=format&fit=crop"
+                        alt="Freshly baked artisan breads and pastries" class="img-fluid hero-img">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="py-4 animate-fade-in">
+        <div class="container py-3">
+            <div class="row g-4">
+                <div class="col-md-4 animate-bounce animate-delay-1">
+                    <div class="feature-box">
+                        <i class="fa-solid fa-wheat-awn feature-icon"></i>
+                        <h3>Organic Flour</h3>
+                        <p>We use only 100% organic stone-ground flour for a healthier, tastier bake.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 animate-bounce animate-delay-2">
+                    <div class="feature-box">
+                        <i class="fa-solid fa-hands-holding-circle feature-icon"></i>
+                        <h3>Handmade</h3>
+                        <p>Every item is handcrafted with love and attention to detail by our expert bakers.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 animate-bounce animate-delay-3">
+                    <div class="feature-box">
+                        <i class="fa-solid fa-truck-fast feature-icon"></i>
+                        <h3>Fresh Delivery</h3>
+                        <p>Order before noon and get fresh goods delivered to your doorstep by evening.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Customer Reviews Section -->
+    <section id="reviews" class="py-5 testimonial-section">
+        <div class="container py-5">
+            <div class="section-title animate-on-scroll">
+                <span>What Our Customers Say</span>
+                <h2>Customer Reviews</h2>
+                <p class="text-muted mt-2 mx-auto" style="max-width: 600px;">Don't just take our word for it -
+                    hear what
+                    our happy customers have to say about our delicious treats!</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card">
+                        <div class="quote-icon">
+                            <i class="fa-solid fa-quote-left"></i>
+                        </div>
+                        <p class="mb-4">"The best bakery in town! Their chocolate lava cake is absolutely
+                            divine. I
+                            order from here every week and it's always fresh and delicious."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616c6d4e6e8?q=80&w=100&auto=format&fit=crop"
+                                alt="Sarah Johnson" class="client-img me-3">
+                            <div>
+                                <h5 class="mb-1">Sarah Johnson</h5>
+                                <div class="text-warning mb-1">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <small class="text-muted">Regular Customer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card">
+                        <div class="quote-icon">
+                            <i class="fa-solid fa-quote-left"></i>
+                        </div>
+                        <p class="mb-4">"Amazing quality and service! I ordered a custom birthday cake and it
+                            exceeded
+                            all expectations. The team is so professional and talented."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop"
+                                alt="Michael Chen" class="client-img me-3">
+                            <div>
+                                <h5 class="mb-1">Michael Chen</h5>
+                                <div class="text-warning mb-1">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <small class="text-muted">Event Organizer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card">
+                        <div class="quote-icon">
+                            <i class="fa-solid fa-quote-left"></i>
+                        </div>
+                        <p class="mb-4">"Their croissants are just like the ones I had in Paris! Fresh, buttery,
+                            and
+                            perfectly flaky. Sweet Treats has become my morning ritual."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop"
+                                alt="Emma Rodriguez" class="client-img me-3">
+                            <div>
+                                <h5 class="mb-1">Emma Rodriguez</h5>
+                                <div class="text-warning mb-1">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <small class="text-muted">Food Blogger</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="review-stats p-4"
+                            style="background: var(--white); border-radius: 15px; box-shadow: var(--shadow);">
+                            <div class="row text-center">
+                                <div class="col-md-3 col-6 mb-3">
+                                    <h3 class="mb-1" style="color: var(--dark-chocolate);">4.9</h3>
+                                    <div class="text-warning mb-1">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                    <small class="text-muted">Average Rating</small>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <h3 class="mb-1" style="color: var(--dark-chocolate);">500+</h3>
+                                    <small class="text-muted">Happy Customers</small>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <h3 class="mb-1" style="color: var(--dark-chocolate);">1000+</h3>
+                                    <small class="text-muted">Orders Delivered</small>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <h3 class="mb-1" style="color: var(--dark-chocolate);">98%</h3>
+                                    <small class="text-muted">Satisfaction Rate</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Write a Review Button -->
+                <div class="mt-4">
+                    <button class="btn btn-custom" onclick="openReviewModal()">
+                        <i class="fa-solid fa-pen-to-square me-2"></i>Write a Review
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Why Choose Us Section -->
+    <section class="py-5 animate-fade-in"
+        style="background: linear-gradient(135deg, var(--soft-cream) 0%, var(--light-brown) 100%);">
+        <div class="container py-4">
+            <div class="section-title">
+                <span>Why Sweet Treats</span>
+                <h2>What Makes Us Different</h2>
+            </div>
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-6 animate-slide-left">
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=800&auto=format&fit=crop"
+                        alt="Our Bakery" class="img-fluid rounded-4 shadow-lg">
+                </div>
+                <div class="col-lg-6 animate-slide-right">
+                    <div class="why-choose-list">
+                        <div class="why-item">
+                            <div class="why-icon">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div class="why-content">
+                                <h4>Award-Winning Quality</h4>
+                                <p>Recognized by food critics and loved by customers for our exceptional taste
+                                    and
+                                    quality.</p>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-icon">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div class="why-content">
+                                <h4>Fresh Daily</h4>
+                                <p>Everything is baked fresh every morning starting at 4 AM to ensure maximum
+                                    freshness.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-icon">
+                                <i class="fa-solid fa-seedling"></i>
+                            </div>
+                            <div class="why-content">
+                                <h4>100% Organic</h4>
+                                <p>We use only certified organic ingredients sourced from local farms and
+                                    trusted
+                                    suppliers.</p>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-icon">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <div class="why-content">
+                                <h4>Made with Love</h4>
+                                <p>Every item is handcrafted by our passionate bakers who take pride in their
+                                    work.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-5 animate-fade-in"
+        style="background: linear-gradient(135deg, var(--warm-cream) 0%, var(--soft-beige) 100%);">
+        <div class="container py-5 text-center">
+            <h2 class="mb-4 animate-on-scroll"
+                style="font-family: 'Playfair Display', serif; color: var(--dark-chocolate);">Ready to
+                Experience Our
+                Delicious Treats?</h2>
+            <p class="lead mb-4 animate-on-scroll">Visit our bakery or browse our full menu online to discover
+                all our
+                handcrafted delights.</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap animate-scale">
+                <a href="menu.html" class="btn-custom">Browse Menu</a>
+                <a href="contact.html" class="btn-outline-custom">Visit Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="brand-font mb-3">Sweet Treats</h5>
+                    <p>Handcrafted with love since 1995. We bring you the finest baked goods made with organic
+                        ingredients and traditional techniques.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6>Categories</h6>
+                    <ul class="footer-links">
+                        <li><a href="menu.html#cakes">Cakes</a></li>
+                        <li><a href="menu.html#pastries">Pastries</a></li>
+                        <li><a href="menu.html#breads">Breads</a></li>
+                        <li><a href="menu.html#cookies">Cookies</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h6>Contact Info</h6>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Baker Street, Sweet City</p>
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> hello@sweettreats.com</p>
+                        <p><i class="fas fa-clock"></i> Mon-Sun: 7:00 AM - 9:00 PM</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Sweet Treats. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals (Cart, QuickView) -->
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 bg-light">
+                    <h5 class="modal-title fw-bold">Your Cart 🛒</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <ul id="cartItemsList" class="list-group list-group-flush mb-3"></ul>
+
+                    <!-- Coupon Section -->
+                    <div class="input-group mb-3">
+                        <input type="text" id="couponCode" class="form-control"
+                            placeholder="Promocode (TRY: WELCOME10)">
+                        <button class="btn btn-outline-secondary" type="button" id="applyCouponBtn" onclick="applyCoupon()">Apply</button>
+                    </div>
+                    <div id="couponMessage" class="small mb-3" style="display: none;"></div>
+
+                    <div class="border-top pt-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span id="cartSubtotal" class="fw-bold">₹0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2 text-success" id="discountRow"
+                            style="display: none;">
+                            <span>Discount:</span>
+                            <span id="cartDiscount">-₹0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between fs-5 fw-bold text-dark-chocolate">
+                            <span>Total:</span>
+                            <span id="cartTotal">₹0.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-light" data-bs-dismiss="modal">Continue Shopping</button>
+                    <button class="btn btn-custom px-4" onclick="checkout()">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div class="modal fade" id="quickViewModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content product-card text-center p-4">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="quickViewContent">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="cartToast" class="toast align-items-center text-white bg-dark border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage">
+                    Item added to cart!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal" onclick="closeVideoModal()">
+        <div class="video-modal-content" onclick="event.stopPropagation()">
+            <button class="video-modal-close" onclick="closeVideoModal()">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <div class="video-modal-body">
+                <video id="modalVideo" controls autoplay preload="auto">
+                    <source src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4"
+                        type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-info">
+                    <h4>Complete Baking Process</h4>
+                    <p>Watch our master bakers create fresh, delicious treats from start to finish</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal fade" id="authModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="authModalTitle">Login to Your Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <!-- Login Form -->
+                    <form id="loginForm" onsubmit="handleLogin(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com" title="Please enter a valid Gmail address">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-custom w-100 mb-3">Login</button>
+                        <p class="text-center mb-0">
+                            Don't have an account? 
+                            <a href="#" onclick="switchAuthMode('register')" class="text-decoration-none">Register here</a>
+                        </p>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="registerForm" onsubmit="handleRegister(event)" style="display: none;">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="registerName" required pattern="[A-Za-z ]{2,}" title="Name must contain only letters and spaces, minimum 2 characters">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com" title="Please enter a valid Gmail address">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="registerPhone" required pattern="[0-9]{10}" title="Phone number must be exactly 10 digits" maxlength="10">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <textarea class="form-control" id="registerAddress" rows="2" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" required minlength="6" title="Password must be at least 6 characters long">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="registerConfirmPassword" required minlength="6">
+                        </div>
+                        <button type="submit" class="btn btn-custom w-100 mb-3">Register</button>
+                        <p class="text-center mb-0">
+                            Already have an account? 
+                            <a href="#" onclick="switchAuthMode('login')" class="text-decoration-none">Login here</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal fade" id="reviewModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Write a Review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="reviewForm" onsubmit="submitReview(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Rating</label>
+                            <div class="rating-input">
+                                <input type="radio" name="rating" value="5" id="star5" required>
+                                <label for="star5"><i class="fa-solid fa-star"></i></label>
+                                <input type="radio" name="rating" value="4" id="star4">
+                                <label for="star4"><i class="fa-solid fa-star"></i></label>
+                                <input type="radio" name="rating" value="3" id="star3">
+                                <label for="star3"><i class="fa-solid fa-star"></i></label>
+                                <input type="radio" name="rating" value="2" id="star2">
+                                <label for="star2"><i class="fa-solid fa-star"></i></label>
+                                <input type="radio" name="rating" value="1" id="star1">
+                                <label for="star1"><i class="fa-solid fa-star"></i></label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Your Review</label>
+                            <textarea class="form-control" id="reviewComment" rows="4" required 
+                                placeholder="Tell us about your experience..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-custom w-100">Submit Review</button>
+                        <p class="text-muted small mt-2 mb-0 text-center">
+                            Your review will be visible after admin approval
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Auth JS -->
+    <script src="../js/auth.js"></script>
+    <!-- Products JS -->
+    <script src="../js/products.js"></script>
+    <!-- Reviews JS -->
+    <script src="../js/reviews.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Sweet Treats</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Admin CSS -->
+    <link rel="stylesheet" href="../css/admin-style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3 class="brand-name">Sweet Treats</h3>
+            <p class="admin-label">Admin Panel</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="menu-item active" data-section="dashboard">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </li>
+            <li class="menu-item" data-section="products">
+                <i class="fa-solid fa-cake-candles"></i>
+                <span>Products</span>
+            </li>
+            <li class="menu-item" data-section="orders">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span>Orders</span>
+            </li>
+            <li class="menu-item" data-section="customers">
+                <i class="fa-solid fa-users"></i>
+                <span>Customers</span>
+            </li>
+            <li class="menu-item" data-section="users">
+                <i class="fa-solid fa-user-circle"></i>
+                <span>Registered Users</span>
+            </li>
+            <li class="menu-item" data-section="reviews">
+                <i class="fa-solid fa-star"></i>
+                <span>Reviews</span>
+            </li>
+            <li class="menu-item" data-section="settings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="index.html" class="btn-view-site">
+                <i class="fa-solid fa-globe"></i>
+                View Website
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <button class="btn-toggle-sidebar" id="toggleSidebar">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="nav-right">
+                <div class="nav-profile">
+                    <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?q=80&w=100&auto=format&fit=crop" alt="Admin">
+                    <span>Admin</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <div class="content-section active" id="dashboard">
+            <div class="section-header">
+                <h2>Dashboard</h2>
+                <p>Welcome back! Here's what's happening today.</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #FFE5E5;">
+                            <i class="fa-solid fa-dollar-sign" style="color: #FF6B6B;"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="todayRevenue">₹0</h3>
+                            <p>Today's Revenue</p>
+                            <span class="stat-change positive" id="revenueChange">+0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #E5F4FF;">
+                            <i class="fa-solid fa-shopping-cart" style="color: #4A90E2;"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalOrders">0</h3>
+                            <p>Total Orders</p>
+                            <span class="stat-change positive" id="ordersChange">+0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #FFF4E5;">
+                            <i class="fa-solid fa-users" style="color: #F5A623;"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="registeredUsersCount">0</h3>
+                            <p>Registered Users</p>
+                            <span class="stat-change positive" id="usersChange">+0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #E8F5E9;">
+                            <i class="fa-solid fa-cake-candles" style="color: #4CAF50;"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalProducts">0</h3>
+                            <p>Total Products</p>
+                            <span class="stat-change positive" id="productsChange">+0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts and Recent Orders -->
+            <div class="row g-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Sales Overview</h4>
+                            <select class="form-select form-select-sm" style="width: auto;">
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                                <option>Last 3 Months</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="salesChart" height="80"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="row g-4 mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Recent Orders</h4>
+                            <a href="#" class="btn-view-all" onclick="event.preventDefault(); document.querySelector('[data-section=orders]').click();">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer</th>
+                                            <th>Items</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentOrdersTableBody">
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted py-4">
+                                                <i class="fa-solid fa-shopping-bag fa-2x mb-2" style="opacity: 0.3;"></i>
+                                                <p>No recent orders</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="content-section" id="products">
+            <div class="section-header">
+                <h2>Products Management</h2>
+                <button class="btn-primary" onclick="addNewProduct()">
+                    <i class="fa-solid fa-plus"></i> Add New Product
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <!-- Products will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div class="content-section" id="orders">
+            <div class="section-header">
+                <h2>Orders Management</h2>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <!-- Orders will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customers Section -->
+        <div class="content-section" id="customers">
+            <div class="section-header">
+                <h2>Customers</h2>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Orders</th>
+                                    <th>Total Spent</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersTableBody">
+                                <!-- Customers will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registered Users Section -->
+        <div class="content-section" id="users">
+            <div class="section-header">
+                <h2>Registered Users</h2>
+                <div>
+                    <span class="badge badge-info" id="totalUsersCount">0 Users</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Password</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Registered Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Registered users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="content-section" id="reviews">
+            <div class="section-header">
+                <h2>Customer Reviews</h2>
+                <div class="filter-buttons">
+                    <button class="btn-filter active">All</button>
+                    <button class="btn-filter">Pending</button>
+                    <button class="btn-filter">Approved</button>
+                </div>
+            </div>
+
+            <div class="row g-4" id="reviewsContainer">
+                <!-- Reviews will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="content-section" id="settings">
+            <div class="section-header">
+                <h2>Settings</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Store Information</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="storeInfoForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Store Name</label>
+                                    <input type="text" class="form-control" value="Sweet Treats">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" value="hello@sweettreats.com">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" value="+1 (555) 123-4567">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Address</label>
+                                    <textarea class="form-control" rows="3">123 Baker Street, Sweet City</textarea>
+                                </div>
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Business Hours</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="businessHoursForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Opening Time</label>
+                                    <input type="time" class="form-control" value="07:00">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Closing Time</label>
+                                    <input type="time" class="form-control" value="21:00">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Working Days</label>
+                                    <div class="day-selector">
+                                        <label><input type="checkbox" checked> Mon</label>
+                                        <label><input type="checkbox" checked> Tue</label>
+                                        <label><input type="checkbox" checked> Wed</label>
+                                        <label><input type="checkbox" checked> Thu</label>
+                                        <label><input type="checkbox" checked> Fri</label>
+                                        <label><input type="checkbox" checked> Sat</label>
+                                        <label><input type="checkbox" checked> Sun</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Product Name</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" required>
+                                    <option>Cakes</option>
+                                    <option>Pastries</option>
+                                    <option>Breads</option>
+                                    <option>Cookies</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Price (₹)</label>
+                                <input type="number" class="form-control" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" rows="3" required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Product Image</label>
+                                <input type="file" class="form-control" accept="image/*">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-primary" onclick="saveProduct()">Save Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Auth JS -->
+    <script src="../js/auth.js"></script>
+    <!-- Custom Admin JS -->
+    <script src="../js/admin-script.js"></script>
+
+</body>
+
+</html>

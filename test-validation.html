@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation Test - Sweet Treats</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Sweet Treats - Validation Testing</h1>
+        
+        <div class="test-section">
+            <h3>Name Validation Tests</h3>
+            <div id="nameTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Email Validation Tests</h3>
+            <div id="emailTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Phone Validation Tests</h3>
+            <div id="phoneTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Password Validation Tests</h3>
+            <div id="passwordTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Registration Integration Test</h3>
+            <div id="registrationTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Login Integration Test</h3>
+            <div id="loginTests"></div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Test cases
+        const nameTestCases = [
+            { input: "John Doe", expected: true, description: "Valid name with space" },
+            { input: "John", expected: true, description: "Valid single name" },
+            { input: "J", expected: false, description: "Too short (1 character)" },
+            { input: "John123", expected: false, description: "Contains numbers" },
+            { input: "John@Doe", expected: false, description: "Contains special characters" },
+            { input: "", expected: false, description: "Empty name" },
+            { input: "  ", expected: false, description: "Only spaces" }
+        ];
+
+        const emailTestCases = [
+            { input: "user@gmail.com", expected: true, description: "Valid Gmail address" },
+            { input: "test.user@gmail.com", expected: true, description: "Valid Gmail with dot" },
+            { input: "user123@gmail.com", expected: true, description: "Valid Gmail with numbers" },
+            { input: "user@yahoo.com", expected: false, description: "Non-Gmail address" },
+            { input: "user@gmail", expected: false, description: "Incomplete Gmail address" },
+            { input: "usergmail.com", expected: false, description: "Missing @ symbol" },
+            { input: "", expected: false, description: "Empty email" },
+            { input: "@gmail.com", expected: false, description: "Missing username" }
+        ];
+
+        const phoneTestCases = [
+            { input: "9876543210", expected: true, description: "Valid 10-digit phone" },
+            { input: "1234567890", expected: true, description: "Valid 10-digit phone starting with 1" },
+            { input: "987654321", expected: false, description: "9 digits (too short)" },
+            { input: "98765432101", expected: false, description: "11 digits (too long)" },
+            { input: "987abc3210", expected: false, description: "Contains letters" },
+            { input: "987-654-3210", expected: false, description: "Contains dashes" },
+            { input: "", expected: false, description: "Empty phone" },
+            { input: "abcdefghij", expected: false, description: "All letters" }
+        ];
+
+        const passwordTestCases = [
+            { input: "password123", expected: true, description: "Valid password (11 chars)" },
+            { input: "123456", expected: true, description: "Valid password (6 chars minimum)" },
+            { input: "12345", expected: false, description: "Too short (5 chars)" },
+            { input: "", expected: false, description: "Empty password" },
+            { input: "a", expected: false, description: "Single character" }
+        ];
+
+        function runTests() {
+            // Name validation tests
+            const nameResults = nameTestCases.map(test => {
+                const result = AuthManager.validateName(test.input);
+                const passed = result.valid === test.expected;
+                return {
+                    description: test.description,
+                    input: test.input,
+                    expected: test.expected,
+                    actual: result.valid,
+                    message: result.message || "Valid",
+                    passed: passed
+                };
+            });
+            displayResults('nameTests', nameResults);
+
+            // Email validation tests
+            const emailResults = emailTestCases.map(test => {
+                const result = AuthManager.validateEmail(test.input);
+                const passed = result.valid === test.expected;
+                return {
+                    description: test.description,
+                    input: test.input,
+                    expected: test.expected,
+                    actual: result.valid,
+                    message: result.message || "Valid",
+                    passed: passed
+                };
+            });
+            displayResults('emailTests', emailResults);
+
+            // Phone validation tests
+            const phoneResults = phoneTestCases.map(test => {
+                const result = AuthManager.validatePhone(test.input);
+                const passed = result.valid === test.expected;
+                return {
+                    description: test.description,
+                    input: test.input,
+                    expected: test.expected,
+                    actual: result.valid,
+                    message: result.message || "Valid",
+                    passed: passed
+                };
+            });
+            displayResults('phoneTests', phoneResults);
+
+            // Password validation tests
+            const passwordResults = passwordTestCases.map(test => {
+                const result = AuthManager.validatePassword(test.input);
+                const passed = result.valid === test.expected;
+                return {
+                    description: test.description,
+                    input: test.input,
+                    expected: test.expected,
+                    actual: result.valid,
+                    message: result.message || "Valid",
+                    passed: passed
+                };
+            });
+            displayResults('passwordTests', passwordResults);
+
+            // Registration integration test
+            testRegistration();
+            
+            // Login integration test
+            testLogin();
+        }
+
+        function displayResults(containerId, results) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = results.map(result => `
+                <div class="test-result ${result.passed ? 'success' : 'error'}">
+                    <strong>${result.description}</strong><br>
+                    Input: "${result.input}" | Expected: ${result.expected} | Actual: ${result.actual}<br>
+                    Message: ${result.message}
+                    ${result.passed ? ' ✓' : ' ✗'}
+                </div>
+            `).join('');
+        }
+
+        function testRegistration() {
+            const container = document.getElementById('registrationTests');
+            
+            // Test valid registration
+            const validUser = {
+                name: "John Doe",
+                email: "john.doe@gmail.com",
+                phone: "9876543210",
+                password: "password123",
+                address: "123 Main Street, City"
+            };
+            
+            const validResult = AuthManager.register(validUser);
+            
+            // Test invalid registrations
+            const invalidUser1 = {
+                name: "John123",  // Invalid name
+                email: "john@gmail.com",
+                phone: "9876543210",
+                password: "password123",
+                address: "123 Main Street"
+            };
+            
+            const invalidResult1 = AuthManager.register(invalidUser1);
+            
+            const invalidUser2 = {
+                name: "Jane Doe",
+                email: "jane@yahoo.com",  // Invalid email
+                phone: "9876543210",
+                password: "password123",
+                address: "123 Main Street"
+            };
+            
+            const invalidResult2 = AuthManager.register(invalidUser2);
+            
+            const invalidUser3 = {
+                name: "Bob Smith",
+                email: "bob@gmail.com",
+                phone: "987654321",  // Invalid phone (9 digits)
+                password: "password123",
+                address: "123 Main Street"
+            };
+            
+            const invalidResult3 = AuthManager.register(invalidUser3);
+            
+            container.innerHTML = `
+                <div class="test-result ${validResult.success ? 'success' : 'error'}">
+                    <strong>Valid Registration Test</strong><br>
+                    Expected: Success | Actual: ${validResult.success ? 'Success' : 'Failed'}<br>
+                    Message: ${validResult.message} ${validResult.success ? '✓' : '✗'}
+                </div>
+                <div class="test-result ${!invalidResult1.success ? 'success' : 'error'}">
+                    <strong>Invalid Name Test</strong><br>
+                    Expected: Failed | Actual: ${invalidResult1.success ? 'Success' : 'Failed'}<br>
+                    Message: ${invalidResult1.message} ${!invalidResult1.success ? '✓' : '✗'}
+                </div>
+                <div class="test-result ${!invalidResult2.success ? 'success' : 'error'}">
+                    <strong>Invalid Email Test</strong><br>
+                    Expected: Failed | Actual: ${invalidResult2.success ? 'Success' : 'Failed'}<br>
+                    Message: ${invalidResult2.message} ${!invalidResult2.success ? '✓' : '✗'}
+                </div>
+                <div class="test-result ${!invalidResult3.success ? 'success' : 'error'}">
+                    <strong>Invalid Phone Test</strong><br>
+                    Expected: Failed | Actual: ${invalidResult3.success ? 'Success' : 'Failed'}<br>
+                    Message: ${invalidResult3.message} ${!invalidResult3.success ? '✓' : '✗'}
+                </div>
+            `;
+        }
+
+        function testLogin() {
+            const container = document.getElementById('loginTests');
+            
+            // Test valid login (using the user we registered above)
+            const validLogin = AuthManager.login("john.doe@gmail.com", "password123");
+            
+            // Test invalid email format
+            const invalidEmailLogin = AuthManager.login("john@yahoo.com", "password123");
+            
+            // Test wrong credentials
+            const wrongCredentials = AuthManager.login("john.doe@gmail.com", "wrongpassword");
+            
+            // Test empty password
+            const emptyPassword = AuthManager.login("john.doe@gmail.com", "");
+            
+            container.innerHTML = `
+                <div class="test-result ${validLogin.success ? 'success' : 'error'}">
+                    <strong>Valid Login Test</strong><br>
+                    Expected: Success | Actual: ${validLogin.success ? 'Success' : 'Failed'}<br>
+                    Message: ${validLogin.message} ${validLogin.success ? '✓' : '✗'}
+                </div>
+                <div class="test-result ${!invalidEmailLogin.success ? 'success' : 'error'}">
+                    <strong>Invalid Email Format Test</strong><br>
+                    Expected: Failed | Actual: ${invalidEmailLogin.success ? 'Success' : 'Failed'}<br>
+                    Message: ${invalidEmailLogin.message} ${!invalidEmailLogin.success ? '✓' : '✗'}
+                </div>
+                <div class="test-result ${!wrongCredentials.success ? 'success' : 'error'}">
+                    <strong>Wrong Credentials Test</strong><br>
+                    Expected: Failed | Actual: ${wrongCredentials.success ? 'Success' : 'Failed'}<br>
+                    Message: ${wrongCredentials.message} ${!wrongCredentials.success ? '✓' : '✗'}
+                </div>
+                <div class="test-result ${!emptyPassword.success ? 'success' : 'error'}">
+                    <strong>Empty Password Test</strong><br>
+                    Expected: Failed | Actual: ${emptyPassword.success ? 'Success' : 'Failed'}<br>
+                    Message: ${emptyPassword.message} ${!emptyPassword.success ? '✓' : '✗'}
+                </div>
+            `;
+        }
+
+        // Run tests when page loads
+        document.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html>

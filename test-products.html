@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Products</title>
+</head>
+<body>
+    <h1>Products in localStorage:</h1>
+    <div id="products-list"></div>
+
+    <script>
+        // Test script to show products from localStorage
+        const products = JSON.parse(localStorage.getItem('bakery_products') || '[]');
+        const container = document.getElementById('products-list');
+        
+        if (products.length === 0) {
+            container.innerHTML = '<p>No products found in localStorage</p>';
+        } else {
+            container.innerHTML = '<ul>' + 
+                products.map(p => `<li>${p.name} - ₹${p.price} (${p.status})</li>`).join('') + 
+                '</ul>';
+        }
+        
+        console.log('Products in localStorage:', products);
+    </script>
+</body>
+</html>
